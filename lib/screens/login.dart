@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:marusinec_app/screens/register.dart';
+import 'package:marusinec_app/utils/custom_textField.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -57,11 +60,9 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           Positioned(
-            top: 470.h, // A lebegő widget magassága a képernyő tetejétől
-            left: 20
-                .w, // A lebegő widget bal oldali távolsága a képernyő bal szélétől
-            right: 20
-                .w, // A lebegő widget jobb oldali távolsága a képernyő jobb szélétől
+            top: 470.h,
+            left: 20.w,
+            right: 20.w,
             child: Container(
               padding: EdgeInsets.all(20.0),
               height: 300.sp,
@@ -73,40 +74,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 20.h),
-                  TextField(
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.grey.shade200,
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(25.r),
-                      ),
-                      hintText: "Felhasználónév",
-                      hintStyle: TextStyle(color: Colors.grey),
-                      contentPadding: EdgeInsets.symmetric(vertical: 15.h),
-                      prefixIcon: Icon(
-                        CupertinoIcons.person_circle,
-                        color: Colors.white,
-                      ),
-                    ),
+                  CustomTextField(
+                    hintText: "Email",
+                    prefixIcon: CupertinoIcons.mail,
+                    color: Colors.grey.shade200,
+                    iconColor: Colors.white,
                   ),
                   SizedBox(height: 10.h),
-                  TextField(
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.grey.shade200,
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(25.r),
-                      ),
-                      hintText: "Jelszó",
-                      hintStyle: TextStyle(color: Colors.grey),
-                      contentPadding: EdgeInsets.symmetric(vertical: 15.h),
-                      prefixIcon: Icon(
-                        Icons.lock_outline,
-                        color: Colors.white,
-                      ),
-                    ),
+                  CustomTextField(
+                    hintText: "Jelszo",
+                    prefixIcon: CupertinoIcons.lock,
+                    color: Colors.grey.shade200,
+                    iconColor: Colors.white,
                   ),
                   SizedBox(
                     height: 8.h,
@@ -119,21 +98,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(color: Colors.blue, fontSize: 13.sp),
                       )),
                   SizedBox(height: 20.h),
-                  Padding(
-                    padding: EdgeInsets.only(left: 0.w),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Bejelentkezési logika
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 105.w, vertical: 12.h),
-                      ),
-                      child: Text(
-                        "Bejelentkezés",
-                        style: TextStyle(color: Colors.white),
-                      ),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Bejelentkezési logika
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 105.w, vertical: 12.h),
+                    ),
+                    child: Text(
+                      "Bejelentkezés",
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
                   SizedBox(height: 20.h),
@@ -147,8 +123,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         width: 4.w,
                       ),
-                      Text("Regisztráció",
-                          style: TextStyle(color: Colors.blue, fontSize: 14.sp))
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const RegisterScreen(),
+                            ),
+                          );
+                        },
+                        child: Text("Regisztráció",
+                            style:
+                                TextStyle(color: Colors.blue, fontSize: 14.sp)),
+                      )
                     ],
                   ),
                 ],
