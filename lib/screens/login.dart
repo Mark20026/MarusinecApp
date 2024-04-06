@@ -1,8 +1,13 @@
+// ignore_for_file: avoid_print, use_build_context_synchronously
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:marusinec_app/screens/register.dart';
+import 'package:marusinec_app/firebase_auth/firebase_auth_services.dart';
+import 'package:marusinec_app/screens/home.dart';
 import 'package:marusinec_app/utils/custom_textField.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -13,6 +18,16 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final FirebaseAuthServices _auth = FirebaseAuthServices();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
             right: 20.w,
             child: Container(
               padding: EdgeInsets.all(20.0),
-              height: 300.sp,
+              height: 280.h,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(15.0),
@@ -75,6 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   SizedBox(height: 20.h),
                   CustomTextField(
+                    controller: emailController,
                     hintText: "Email",
                     prefixIcon: CupertinoIcons.mail,
                     color: Colors.grey.shade200,
@@ -82,6 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   SizedBox(height: 10.h),
                   CustomTextField(
+                    controller: passwordController,
                     hintText: "Jelszo",
                     prefixIcon: CupertinoIcons.lock,
                     color: Colors.grey.shade200,
@@ -100,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: 20.h),
                   ElevatedButton(
                     onPressed: () {
-                      // Bejelentkezési logika
+                      _signIn();
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
@@ -112,31 +129,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
-                  SizedBox(height: 20.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Nincs még fiókod?",
-                        style: TextStyle(color: Colors.black, fontSize: 14.sp),
-                      ),
-                      SizedBox(
-                        width: 4.w,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const RegisterScreen(),
-                            ),
-                          );
-                        },
-                        child: Text("Regisztráció",
-                            style:
-                                TextStyle(color: Colors.blue, fontSize: 14.sp)),
-                      )
-                    ],
-                  ),
                 ],
               ),
             ),
@@ -145,4 +137,23 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+  void _signIn() async {
+  String email = emailController.text;
+  String password = passwordController.text;
+
+  try {
+    User? user = await _auth.signInWithEmailAndPassword(email, password);
+
+    if (user != null) {
+      print("A felhasználó sikeresen bejelentkezett");
+      Navigator.push(context, MaterialPageRoute(builder: (builder) => HomeScreen()));
+    } else {
+      print("Valamilyen hiba történt");
+    }
+  } catch (e) {
+    print("Hiba történt a bejelentkezés során: $e");
+  }
+}
+
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "28662539360",
+    "project_id": "marusinecapp-81e2e",
+    "storage_bucket": "marusinecapp-81e2e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:28662539360:android:de82e3d2acbba81bb84f05",
+        "android_client_info": {
+          "package_name": "com.example.marusinec_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOilxoxJLYKuowmkiTCYra-KtH8GseMgg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
